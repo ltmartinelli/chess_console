@@ -28,8 +28,10 @@ namespace board
 
         public void PlacePiece(Piece p, Position pos)
         {
+            if (hasPiece(pos)) { throw new BoardException("There is already a piece in this position"); }
             Pieces[pos.Line, pos.Row] = p;
             p.Position = pos;
+
         }
 
 
