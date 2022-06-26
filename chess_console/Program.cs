@@ -9,14 +9,17 @@ namespace chess_console
 
         static void Main(string[] args)
         {
+            try
+            {
+                Match match = new Match();
 
-            Board board = new Board(8, 8);
 
-            board.PlacePiece(new Tower(board, Color.Black), new Position(0, 0));
-            board.PlacePiece(new King(board, Color.White), new Position(1, 0));
-
-            Screen.PrintBoard(board);
-
+                Screen.PrintBoard(match.Board);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

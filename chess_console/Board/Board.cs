@@ -34,6 +34,16 @@ namespace board
 
         }
 
+        public Piece RemovePiece(Position pos)
+        {
+            if (!hasPiece(pos)) { return null; }
+            Piece aux = Piece(pos);
+            aux.Position = null;
+            Pieces[pos.Line, pos.Row] = null;
+            return aux;
+            
+        }
+
 
         public bool hasPiece(Position pos)
         {
