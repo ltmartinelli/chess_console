@@ -10,6 +10,7 @@ namespace chess
         public Board Board { get; private set; }
         private int Turn;
         private Color CurrentPlayer;
+        public bool HasFinished { get; private set; }
 
         public Match()
         {
@@ -17,6 +18,7 @@ namespace chess
             Turn = 1;
             CurrentPlayer = Color.White;
             PlacePieces();
+            HasFinished = false;
         }
 
         public void ExecuteMovement(Position origin, Position target)

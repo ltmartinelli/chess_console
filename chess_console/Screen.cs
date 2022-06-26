@@ -1,6 +1,6 @@
 ﻿using System;
 using board;
-
+using chess;
 
 
 namespace chess_console
@@ -46,6 +46,16 @@ namespace chess_console
                 Console.ForegroundColor = aux;
             }
         }
+
+        public static PositionChess ReadPosition()
+        {
+            string s = Console.ReadLine();
+            char row = s[0];
+            int line = int.Parse(s[1]+"");
+            return new PositionChess(row, line);
+
+        }
+
 
     }
 }
