@@ -1,6 +1,6 @@
 ﻿
 
-namespace Board
+namespace board
 {
     class Board
     {
@@ -15,5 +15,11 @@ namespace Board
             Pieces = new Piece[lines, rows];
 
         }
+
+        public Piece Piece(int line, int row)
+        {
+            return Pieces[line, row];   
+        } 
+
     }
 }
