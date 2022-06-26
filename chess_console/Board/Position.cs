@@ -1,19 +1,19 @@
-﻿namespace board
+﻿namespace Board
 {
     class Position
     {
         public int Line { get; set; }
-        public int Column { get; set; }
+        public int Row { get; set; }
 
         public Position(int line, int column)
         {
             Line = line;
-            Column = column;
+            Row = column;
         }
 
         public override string ToString()
         {
-            return Line + ", " + Column;
+            return Line + ", " + Row;
         }
     }
 }
