@@ -10,12 +10,12 @@ namespace chess_console
         static void Main(string[] args)
         {
 
-            PositionChess pos = new PositionChess('c', 7);
+            Board board = new Board(8, 8);
 
-            Console.WriteLine(pos);
+            board.PlacePiece(new Tower(board, Color.Black), new Position(0, 0));
+            board.PlacePiece(new King(board, Color.White), new Position(1, 0));
 
-            Console.WriteLine(pos.toPosition());
-
+            Screen.PrintBoard(board);
 
         }
     }
