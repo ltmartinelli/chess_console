@@ -32,7 +32,6 @@ namespace chess
 
         private void PlacePieces()
         {
-
             Board.PlacePiece(new Tower(Board, Color.Black), new PositionChess('c', 1).toPosition());
 
         }
