@@ -52,7 +52,7 @@ namespace chess
                 {
                     break;
                 }
-                pos.Line--;
+                pos.Line++;
             }
 
             
@@ -66,7 +66,7 @@ namespace chess
                 {
                     break;
                 }
-                pos.Line--;
+                pos.Line++;
             }
             
             //w
