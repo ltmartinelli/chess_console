@@ -1,4 +1,4 @@
-﻿namespace board
+﻿namespace Boardgame
 {
     enum Color
     {

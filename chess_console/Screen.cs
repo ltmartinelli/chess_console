@@ -1,5 +1,5 @@
 ﻿using System;
-using board;
+using Boardgame;
 using chess;
 
 

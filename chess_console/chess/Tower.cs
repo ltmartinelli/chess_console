@@ -1,4 +1,4 @@
-﻿using board;
+﻿using Boardgame;
 
 
 namespace chess

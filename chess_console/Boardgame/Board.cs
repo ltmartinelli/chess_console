@@ -1,6 +1,6 @@
 ﻿
 
-namespace board
+namespace Boardgame
 {
     class Board
     {

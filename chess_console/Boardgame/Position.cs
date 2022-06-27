@@ -1,4 +1,4 @@
-﻿namespace board
+﻿namespace Boardgame
 {
     class Position
     {
@@ -14,6 +14,12 @@
         public override string ToString()
         {
             return Line + ", " + Row;
+        }
+
+        public void DefineValues(int line, int row)
+        {
+            Line = line;
+            Row = row;
         }
     }
 }

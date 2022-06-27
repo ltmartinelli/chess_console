@@ -1,5 +1,5 @@
 ﻿using chess;
-using board;
+using Boardgame;
 
 namespace chess
 {
