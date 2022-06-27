@@ -34,6 +34,8 @@ namespace chess
         {
             Board.PlacePiece(new Tower(Board, Color.Black), new PositionChess('c', 1).toPosition());
 
+
+            Board.PlacePiece(new King(Board, Color.Black), new PositionChess('d', 4).toPosition());
         }
     }
 }

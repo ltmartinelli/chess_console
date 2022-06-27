@@ -15,6 +15,76 @@ namespace chess
             return "T";
         }
 
+        private bool canMove(Position pos)
+        {
+            Piece p = Board.Piece(pos);
+            return p == null || p.Color != Color;
+
+        }
+
+        public override bool[,] PossibleMovements()
+        {
+            bool[,] mat = new bool[Board.Lines, Board.Rows];
+
+            Position pos = new Position(0, 0);
+
+            //n
+            pos.DefineValues(Position.Line - 1, Position.Row);
+            while (Board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Line, pos.Row] = true;
+                if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
+                {
+                    break;
+                }
+                pos.Line--;
+            }
+
+           
+
+            //e
+
+            pos.DefineValues(Position.Line, Position.Row + 1);
+            while (Board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Line, pos.Row] = true;
+                if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
+                {
+                    break;
+                }
+                pos.Line--;
+            }
+
+            
+
+            //s
+            pos.DefineValues(Position.Line + 1, Position.Row);
+            while (Board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Line, pos.Row] = true;
+                if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
+                {
+                    break;
+                }
+                pos.Line--;
+            }
+            
+            //w
+            pos.DefineValues(Position.Line, Position.Row - 1);
+            while (Board.validPosition(pos) && canMove(pos))
+            {
+                mat[pos.Line, pos.Row] = true;
+                if (Board.Piece(pos) != null && Board.Piece(pos).Color != Color)
+                {
+                    break;
+                }
+                pos.Line--;
+            }
+            
+            return mat;
+        }
+
+
     }
 
 }
