@@ -14,6 +14,7 @@ namespace chess
         public bool HasFinished { get; private set; }
         private HashSet<Piece> Pieces;
         private HashSet<Piece> CapturedPieces;
+        public bool Check { get; private set; }
 
 
         public Match()
@@ -21,13 +22,15 @@ namespace chess
             Board = new Board(8, 8);
             Turn = 1;
             CurrentPlayer = Color.White;
+            HasFinished = false;
+            Check = false;
             Pieces = new HashSet<Piece>();
             CapturedPieces = new HashSet<Piece>();
+
             PlacePieces();
-            HasFinished = false;
         }
 
-        public void ExecuteMovement(Position origin, Position target)
+        public Piece ExecuteMovement(Position origin, Position target)
         {
             Piece p = Board.RemovePiece(origin);
             p.IncrementMovements();
@@ -39,11 +42,40 @@ namespace chess
                 CapturedPieces.Add(capturedPiece);
             }
 
+            return capturedPiece;
+
+        }
+
+        public void UndoMovement(Position origin, Position target, Piece capturedPiece)
+        {
+            Piece p = Board.RemovePiece(target);
+            p.DecrementMovements();
+            if (capturedPiece != null)
+            {
+                Board.PlacePiece(capturedPiece, target);
+                CapturedPieces.Remove(capturedPiece);
+            }
+            Board.PlacePiece(p, origin);
         }
 
         public void ExecutePlay(Position origin, Position target)
         {
-            ExecuteMovement(origin, target);
+            Piece capturedPiece = ExecuteMovement(origin, target);
+
+            if (IsInCheck(CurrentPlayer){
+                UndoMovement(origin, target, capturedPiece);
+                throw new BoardException("You can't put your King in Check!");
+            }
+            if (IsInCheck(Opponent(CurrentPlayer)))
+            {
+                Check = true;
+            }
+            else
+            {
+                Check = false;
+            }
+
+            
             Turn++;
             ChangePlayer();
         }
@@ -84,11 +116,11 @@ namespace chess
                 throw new BoardException("Invalid target position");
             }
         }
-        
+
         private void PlacePieces()
         {
             PlaceNewPiece('c', 1, new Tower(Board, Color.White));
-                   
+
         }
 
         public HashSet<Piece> CapturedPiecesOfColor(Color color)
@@ -102,6 +134,49 @@ namespace chess
                 }
             }
             return aux;
+        }
+
+        private Color Opponent(Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+
+        }
+
+        private Piece King(Color color)
+        {
+            foreach (Piece x in PiecesInPlayOfColor(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        public bool IsInCheck(Color color)
+        {
+            Piece k = King(color);
+
+
+            foreach (Piece x in PiecesInPlayOfColor(Opponent(color)))
+            {
+                bool[,] mat = x.PossibleMovements();
+                if (mat[k.Position.Line, k.Position.Row])
+                {
+                    return true;
+                }
+            }
+
+            return false;
+
         }
 
         public HashSet<Piece> PiecesInPlayOfColor(Color color)
@@ -125,6 +200,6 @@ namespace chess
             Board.PlacePiece(piece, new PositionChess(row, line).toPosition());
             Pieces.Add(piece);
         }
-        
+
     }
 }
