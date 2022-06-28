@@ -154,6 +154,23 @@ namespace chess
                 throw new BoardException("You can't put your King in Check!");
             }
 
+            Piece p = Board.Piece(target);
+
+            //Promotion
+            
+            if (p is Pawn)
+            {
+                if (p.Color == Color.White && target.Line == 0 || p.Color == Color.Black && target.Line == 7)
+                {
+                    p = Board.RemovePiece(target);
+                    Pieces.Remove(p);
+                    Piece queen = new Queen(Board, p.Color);
+                    Board.PlacePiece(queen, target);
+                    Pieces.Add(queen);
+                }
+            }
+
+
             if (IsInCheck(Opponent(CurrentPlayer)))
             {
                 Check = true;
@@ -173,7 +190,7 @@ namespace chess
                 ChangePlayer();
             }
 
-            Piece p = Board.Piece(target);
+           
 
             //Special Play En Passant
             if (p is Pawn && target.Line == origin.Line - 2 || target.Line == origin.Line + 2)
