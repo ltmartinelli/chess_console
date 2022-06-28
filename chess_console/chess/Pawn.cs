@@ -6,8 +6,12 @@ namespace chess
 
     class Pawn : Piece
     {
-        public Pawn(Board board, Color color) : base(board, color)
+        private Match Match;
+
+
+        public Pawn(Board board, Color color, Match match) : base(board, color)
         {
+            Match = match;
         }
 
         public bool HasEnemy(Position pos)
@@ -62,6 +66,24 @@ namespace chess
                     mat[pos.Line, pos.Row] = true;
                 }
 
+                //En Passant
+                if (Position.Line == 3)
+                {
+                    Position left = new Position(Position.Line, Position.Row - 1);
+                    if (Board.validPosition(left) && HasEnemy(left) && Board.Piece(left) == Match.VulnerableEnPassant)
+                    {
+                        mat[left.Line -1 , left.Row] = true;
+                    }
+                    Position right = new Position(Position.Line, Position.Row + 1);
+                    if (Board.validPosition(right) && HasEnemy(right) && Board.Piece(right) == Match.VulnerableEnPassant)
+                    {
+                        mat[right.Line -1 , right.Row] = true;
+                    }
+
+
+                }
+
+
             }
             //BlackPawn
             else
@@ -86,6 +108,24 @@ namespace chess
                 {
                     mat[pos.Line, pos.Row] = true;
                 }
+
+                //En Passant
+                if (Position.Line == 4)
+                {
+                    Position left = new Position(Position.Line, Position.Row - 1);
+                    if (Board.validPosition(left) && HasEnemy(left) && Board.Piece(left) == Match.VulnerableEnPassant)
+                    {
+                        mat[left.Line +1, left.Row] = true;
+                    }
+                    Position right = new Position(Position.Line, Position.Row + 1);
+                    if (Board.validPosition(right) && HasEnemy(right) && Board.Piece(right) == Match.VulnerableEnPassant)
+                    {
+                        mat[right.Line +1, right.Row] = true;
+                    }
+
+
+                }
+
             }
 
             return mat;
