@@ -42,6 +42,26 @@ namespace chess
                 CapturedPieces.Add(capturedPiece);
             }
 
+            //Special PLay Minor Castling
+            if (p is King && target.Row == origin.Row + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Row + 3);
+                Position targetT = new Position(origin.Line, origin.Row + 1);
+                Piece t = Board.RemovePiece(originT);
+                t.IncrementMovements();
+                Board.PlacePiece(t, targetT);
+            }
+
+            //Special PLay Major Castling
+            if (p is King && target.Row == origin.Row - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Row - 4);
+                Position targetT = new Position(origin.Line, origin.Row - 1);
+                Piece t = Board.RemovePiece(originT);
+                t.IncrementMovements();
+                Board.PlacePiece(t, targetT);
+            }
+
             return capturedPiece;
 
         }
@@ -56,6 +76,28 @@ namespace chess
                 CapturedPieces.Remove(capturedPiece);
             }
             Board.PlacePiece(p, origin);
+
+
+            //Special PLay Minor Castling
+            if (p is King && target.Row == origin.Row + 2)
+            {
+                Position originT = new Position(origin.Line, origin.Row + 3);
+                Position targetT = new Position(origin.Line, origin.Row + 1);
+                Piece t = Board.RemovePiece(targetT);
+                t.DecrementMovements();
+                Board.PlacePiece(t, originT);
+            }
+            //Special PLay Major Castling
+            if (p is King && target.Row == origin.Row - 2)
+            {
+                Position originT = new Position(origin.Line, origin.Row - 4);
+                Position targetT = new Position(origin.Line, origin.Row - 1);
+                Piece t = Board.RemovePiece(targetT);
+                t.DecrementMovements();
+                Board.PlacePiece(t, originT);
+            }
+
+
         }
 
         public void ExecutePlay(Position origin, Position target)
@@ -133,7 +175,7 @@ namespace chess
             PlaceNewPiece('b', 1, new Knight(Board, Color.White));
             PlaceNewPiece('c', 1, new Bishop(Board, Color.White));
             PlaceNewPiece('d', 1, new Queen(Board, Color.White));
-            PlaceNewPiece('e', 1, new King(Board, Color.White));
+            PlaceNewPiece('e', 1, new King(Board, Color.White, this));
             PlaceNewPiece('f', 1, new Bishop(Board, Color.White));
             PlaceNewPiece('g', 1, new Knight(Board, Color.White));
             PlaceNewPiece('h', 1, new Tower(Board, Color.White));
@@ -150,7 +192,7 @@ namespace chess
             PlaceNewPiece('b', 8, new Knight(Board, Color.Black));
             PlaceNewPiece('c', 8, new Bishop(Board, Color.Black));
             PlaceNewPiece('d', 8, new Queen(Board, Color.Black));
-            PlaceNewPiece('e', 8, new King(Board, Color.Black));
+            PlaceNewPiece('e', 8, new King(Board, Color.Black, this));
             PlaceNewPiece('f', 8, new Bishop(Board, Color.Black));
             PlaceNewPiece('g', 8, new Knight(Board, Color.Black));
             PlaceNewPiece('h', 8, new Tower(Board, Color.Black));
