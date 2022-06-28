@@ -16,7 +16,20 @@ namespace chess_console
             PrintCapturedPieces(match);
             Console.WriteLine();
             Console.WriteLine("Turn: " + match.Turn);
-            Console.WriteLine("Awaiting Player: " + match.CurrentPlayer);
+
+            if (!match.HasFinished)
+            {
+                Console.WriteLine("Awaiting Player: " + match.CurrentPlayer);
+                if (match.Check)
+                {
+                    Console.WriteLine("CHECK");
+                }
+            }
+            else
+            {
+                Console.WriteLine("CHECKMATE!");
+                Console.WriteLine("Winner: " + match.CurrentPlayer);
+            }
         }
 
         public static void PrintCapturedPieces(Match match)
@@ -75,7 +88,7 @@ namespace chess_console
                     {
                         Console.BackgroundColor = originalBackground;
                     }
-                    
+
                     PrintPiece(board.Piece(i, j));
                     Console.BackgroundColor = originalBackground;
 

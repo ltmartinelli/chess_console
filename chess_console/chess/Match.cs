@@ -62,10 +62,12 @@ namespace chess
         {
             Piece capturedPiece = ExecuteMovement(origin, target);
 
-            if (IsInCheck(CurrentPlayer)){
+            if (IsInCheck(CurrentPlayer))
+            {
                 UndoMovement(origin, target, capturedPiece);
                 throw new BoardException("You can't put your King in Check!");
             }
+
             if (IsInCheck(Opponent(CurrentPlayer)))
             {
                 Check = true;
@@ -75,9 +77,17 @@ namespace chess
                 Check = false;
             }
 
-            
-            Turn++;
-            ChangePlayer();
+            if (TestCheckMate(Opponent(CurrentPlayer)))
+            {
+                HasFinished = true;
+            }
+            else
+            {
+                Turn++;
+                ChangePlayer();
+            }
+
+
         }
 
         private void ChangePlayer()
@@ -179,6 +189,40 @@ namespace chess
 
         }
 
+        public bool TestCheckMate(Color color)
+        {
+            if (!IsInCheck(color))
+            {
+                return false;
+            }
+            foreach (Piece x in PiecesInPlayOfColor(color))
+            {
+                bool[,] mat = x.PossibleMovements();
+                for (int i = 0; i < Board.Lines; i++)
+                {
+                    for (int j = 0; j < Board.Rows; j++)
+                    {
+                        if (mat[i, j])
+                        {
+                            Position origin = x.Position;
+                            Position target = new Position(i, j);
+                            Piece capturedPiece = ExecuteMovement(origin, target);
+                            bool testCheck = IsInCheck(color);
+                            UndoMovement(origin, target, capturedPiece);
+                            if (!testCheck)
+                            {
+                                return false;
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+
         public HashSet<Piece> PiecesInPlayOfColor(Color color)
         {
             HashSet<Piece> aux = new HashSet<Piece>();
@@ -200,6 +244,8 @@ namespace chess
             Board.PlacePiece(piece, new PositionChess(row, line).toPosition());
             Pieces.Add(piece);
         }
+
+
 
     }
 }
