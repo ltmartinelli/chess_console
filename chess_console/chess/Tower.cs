@@ -52,7 +52,7 @@ namespace chess
                 {
                     break;
                 }
-                pos.Line++;
+                pos.Row++;
             }
 
             
@@ -78,7 +78,7 @@ namespace chess
                 {
                     break;
                 }
-                pos.Line--;
+                pos.Row--;
             }
             
             return mat;

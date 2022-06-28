@@ -15,24 +15,37 @@ namespace chess_console
 
                 while (!match.HasFinished)
                 {
-                    Console.Clear();
+                    try
+                    {
 
-                    Screen.PrintBoard(match.Board);
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board);
+                        Console.WriteLine();
+                        Console.WriteLine("Turn: " + match.Turn);
+                        Console.WriteLine("Awaiting Player: " + match.CurrentPlayer);
 
-                    Console.Write("Origin: ");
-                    Position origin = Screen.ReadPosition().toPosition();
+                        Console.Write("Origin: ");
+                        Position origin = Screen.ReadPosition().toPosition();
+                        match.ValidateOriginPosition(origin);
 
-                    bool[,] possiblePositions = match.Board.Piece(origin).PossibleMovements();
-
-
-                    Console.Clear();
-                    Screen.PrintBoard(match.Board, possiblePositions);
+                        bool[,] possiblePositions = match.Board.Piece(origin).PossibleMovements();
 
 
-                    Console.Write("Target: ");
-                    Position target = Screen.ReadPosition().toPosition();
+                        Console.Clear();
+                        Screen.PrintBoard(match.Board, possiblePositions);
 
-                    match.ExecuteMovement(origin, target);
+
+                        Console.Write("Target: ");
+                        Position target = Screen.ReadPosition().toPosition();
+                        match.ValidateTargetPosition(origin, target);
+
+                        match.ExecutePlay(origin, target);
+                    }
+                    catch(BoardException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
 
 
 
