@@ -1,24 +1,22 @@
 ﻿using Boardgame;
 
-
 namespace chess
 {
 
     class King : Piece
     {
+        private Match _match;
 
-        private Match Match;
 
         public King(Board board, Color color, Match match) : base(board, color)
         {
-            Match = match;
+            _match = match;
         }
 
         private bool canMove(Position pos)
         {
             Piece p = Board.Piece(pos);
             return p == null || p.Color != Color;
-
         }
 
         private bool TestTowerCastling(Position pos)
@@ -41,7 +39,6 @@ namespace chess
             }
 
             //ne
-
             pos.DefineValues(Position.Line - 1, Position.Row + 1);
             if (Board.validPosition(pos) && canMove(pos))
             {
@@ -49,7 +46,6 @@ namespace chess
             }
 
             //e
-
             pos.DefineValues(Position.Line, Position.Row + 1);
             if (Board.validPosition(pos) && canMove(pos))
             {
@@ -57,7 +53,6 @@ namespace chess
             }
 
             //se
-
             pos.DefineValues(Position.Line + 1, Position.Row + 1);
             if (Board.validPosition(pos) && canMove(pos))
             {
@@ -70,18 +65,21 @@ namespace chess
             {
                 mat[pos.Line, pos.Row] = true;
             }
+
             //sw
             pos.DefineValues(Position.Line + 1, Position.Row - 1);
             if (Board.validPosition(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Row] = true;
             }
+
             //w
             pos.DefineValues(Position.Line, Position.Row - 1);
             if (Board.validPosition(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Row] = true;
             }
+
             //nw
             pos.DefineValues(Position.Line - 1, Position.Row - 1);
             if (Board.validPosition(pos) && canMove(pos))
@@ -91,7 +89,7 @@ namespace chess
 
             //#Special Play Castling
 
-            if (Movements == 0 && !Match.Check)
+            if (Movements == 0 && !_match.Check)
             {
                 //Minor
                 Position posT1 = new Position(Position.Line, Position.Row + 3);
@@ -104,6 +102,7 @@ namespace chess
                         mat[Position.Line, Position.Row + 2] = true;
                     }
                 }
+
                 //Major
                 Position posT2 = new Position(Position.Line, Position.Row + -4);
                 if (TestTowerCastling(posT2))
@@ -119,15 +118,13 @@ namespace chess
                 }
             }
 
-
-
             return mat;
+
         }
 
         public override string ToString()
         {
             return "K";
         }
-
     }
 }

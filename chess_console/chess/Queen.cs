@@ -1,6 +1,5 @@
 ﻿using Boardgame;
 
-
 namespace chess
 {
 
@@ -19,7 +18,6 @@ namespace chess
         {
             Piece p = Board.Piece(pos);
             return p == null || p.Color != Color;
-
         }
 
         public override bool[,] PossibleMovements()
@@ -40,10 +38,7 @@ namespace chess
                 pos.Line--;
             }
 
-           
-
             //e
-
             pos.DefineValues(Position.Line, Position.Row + 1);
             while (Board.validPosition(pos) && canMove(pos))
             {
@@ -54,8 +49,6 @@ namespace chess
                 }
                 pos.Row++;
             }
-
-            
 
             //s
             pos.DefineValues(Position.Line + 1, Position.Row);
@@ -93,10 +86,7 @@ namespace chess
                 pos.DefineValues(pos.Line - 1, pos.Row - 1);
             }
 
-
-
             //ne
-
             pos.DefineValues(Position.Line - 1, Position.Row + 1);
             while (Board.validPosition(pos) && canMove(pos))
             {
@@ -107,8 +97,6 @@ namespace chess
                 }
                 pos.DefineValues(pos.Line - 1, pos.Row + 1);
             }
-
-
 
             //se
             pos.DefineValues(Position.Line + 1, Position.Row + 1);
@@ -135,9 +123,7 @@ namespace chess
             }
 
             return mat;
+
         }
-
-
     }
-
 }

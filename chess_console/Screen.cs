@@ -1,14 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Boardgame;
 using chess;
-using System.Collections.Generic;
-
 
 namespace chess_console
 {
     class Screen
     {
-
         public static void PrintMatch(Match match)
         {
             PrintBoard(match.Board);
@@ -130,9 +128,6 @@ namespace chess_console
             char row = s[0];
             int line = int.Parse(s[1] + "");
             return new PositionChess(row, line);
-
         }
-
-
     }
 }

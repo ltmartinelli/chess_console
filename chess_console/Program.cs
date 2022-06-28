@@ -17,7 +17,6 @@ namespace chess_console
                 {
                     try
                     {
-
                         Console.Clear();
                         Screen.PrintMatch(match);
 
@@ -38,20 +37,15 @@ namespace chess_console
 
                         match.ExecutePlay(origin, target);
                     }
-                    catch(BoardException e)
+                    catch (BoardException e)
                     {
                         Console.WriteLine(e.Message);
                         Console.ReadLine();
                     }
-
-
-
-
-
                 }
+
                 Console.Clear();
                 Screen.PrintMatch(match);
-
 
             }
             catch (Exception e)

@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Boardgame;
 using chess;
-using System.Collections.Generic;
 
 namespace chess
 {
@@ -12,10 +12,11 @@ namespace chess
         public int Turn { get; private set; }
         public Color CurrentPlayer { get; private set; }
         public bool HasFinished { get; private set; }
-        private HashSet<Piece> Pieces;
-        private HashSet<Piece> CapturedPieces;
         public bool Check { get; private set; }
         public Piece VulnerableEnPassant { get; private set; }
+
+        private HashSet<Piece> _pieces;
+        private HashSet<Piece> _capturedPieces;
 
 
         public Match()
@@ -25,9 +26,9 @@ namespace chess
             CurrentPlayer = Color.White;
             HasFinished = false;
             Check = false;
-            Pieces = new HashSet<Piece>();
+            _pieces = new HashSet<Piece>();
             VulnerableEnPassant = null;
-            CapturedPieces = new HashSet<Piece>();
+            _capturedPieces = new HashSet<Piece>();
 
             PlacePieces();
         }
@@ -41,7 +42,7 @@ namespace chess
 
             if (capturedPiece != null)
             {
-                CapturedPieces.Add(capturedPiece);
+                _capturedPieces.Add(capturedPiece);
             }
 
             //Special PLay Minor Castling
@@ -82,14 +83,10 @@ namespace chess
                     }
 
                     capturedPiece = Board.RemovePiece(posP);
-                    CapturedPieces.Add(capturedPiece);
-                    
-
+                    _capturedPieces.Add(capturedPiece);
                 }
             }
-
             return capturedPiece;
-
         }
 
         public void UndoMovement(Position origin, Position target, Piece capturedPiece)
@@ -99,7 +96,7 @@ namespace chess
             if (capturedPiece != null)
             {
                 Board.PlacePiece(capturedPiece, target);
-                CapturedPieces.Remove(capturedPiece);
+                _capturedPieces.Remove(capturedPiece);
             }
             Board.PlacePiece(p, origin);
 
@@ -140,8 +137,6 @@ namespace chess
                     Board.PlacePiece(pawn, posP);
                 }
             }
-
-
         }
 
         public void ExecutePlay(Position origin, Position target)
@@ -163,10 +158,10 @@ namespace chess
                 if (p.Color == Color.White && target.Line == 0 || p.Color == Color.Black && target.Line == 7)
                 {
                     p = Board.RemovePiece(target);
-                    Pieces.Remove(p);
+                    _pieces.Remove(p);
                     Piece queen = new Queen(Board, p.Color);
                     Board.PlacePiece(queen, target);
-                    Pieces.Add(queen);
+                    _pieces.Add(queen);
                 }
             }
 
@@ -222,7 +217,6 @@ namespace chess
             if (Board.Piece(pos) == null)
             {
                 throw new BoardException("There's no Piece in the Origin Position");
-
             }
             if (CurrentPlayer != Board.Piece(pos).Color)
             {
@@ -283,7 +277,7 @@ namespace chess
         public HashSet<Piece> CapturedPiecesOfColor(Color color)
         {
             HashSet<Piece> aux = new HashSet<Piece>();
-            foreach (Piece x in CapturedPieces)
+            foreach (Piece x in _capturedPieces)
             {
                 if (x.Color == color)
                 {
@@ -303,7 +297,6 @@ namespace chess
             {
                 return Color.White;
             }
-
         }
 
         private Piece King(Color color)
@@ -322,7 +315,6 @@ namespace chess
         {
             Piece k = King(color);
 
-
             foreach (Piece x in PiecesInPlayOfColor(Opponent(color)))
             {
                 bool[,] mat = x.PossibleMovements();
@@ -331,9 +323,7 @@ namespace chess
                     return true;
                 }
             }
-
             return false;
-
         }
 
         public bool TestCheckMate(Color color)
@@ -360,7 +350,6 @@ namespace chess
                             {
                                 return false;
                             }
-
                         }
                     }
                 }
@@ -373,7 +362,7 @@ namespace chess
         public HashSet<Piece> PiecesInPlayOfColor(Color color)
         {
             HashSet<Piece> aux = new HashSet<Piece>();
-            foreach (Piece x in Pieces)
+            foreach (Piece x in _pieces)
             {
                 if (x.Color == color)
                 {
@@ -384,15 +373,10 @@ namespace chess
             return aux;
         }
 
-
-
         public void PlaceNewPiece(char row, int line, Piece piece)
         {
             Board.PlacePiece(piece, new PositionChess(row, line).toPosition());
-            Pieces.Add(piece);
+            _pieces.Add(piece);
         }
-
-
-
     }
 }

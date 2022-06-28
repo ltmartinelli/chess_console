@@ -1,37 +1,35 @@
-﻿
+﻿namespace Boardgame
 
-namespace Boardgame
 {
     class Board
     {
         public int Lines { get; set; }
         public int Rows { get; set; }
-        private Piece[,] Pieces;
+        private Piece[,] _pieces;
+
 
         public Board(int lines, int rows)
         {
             Lines = lines;
             Rows = rows;
-            Pieces = new Piece[lines, rows];
-
+            _pieces = new Piece[lines, rows];
         }
 
         public Piece Piece(int line, int row)
         {
-            return Pieces[line, row];   
+            return _pieces[line, row];   
         } 
 
         public Piece Piece(Position pos)
         {
-            return Pieces[pos.Line, pos.Row];
+            return _pieces[pos.Line, pos.Row];
         }
 
         public void PlacePiece(Piece p, Position pos)
         {
             if (hasPiece(pos)) { throw new BoardException("There is already a piece in this position"); }
-            Pieces[pos.Line, pos.Row] = p;
+            _pieces[pos.Line, pos.Row] = p;
             p.Position = pos;
-
         }
 
         public Piece RemovePiece(Position pos)
@@ -39,11 +37,9 @@ namespace Boardgame
             if (!hasPiece(pos)) { return null; }
             Piece aux = Piece(pos);
             aux.Position = null;
-            Pieces[pos.Line, pos.Row] = null;
+            _pieces[pos.Line, pos.Row] = null;
             return aux;
-            
         }
-
 
         public bool hasPiece(Position pos)
         {
@@ -67,6 +63,5 @@ namespace Boardgame
                 throw new BoardException("Invalid Position!");
             }
         }
-
     }
 }

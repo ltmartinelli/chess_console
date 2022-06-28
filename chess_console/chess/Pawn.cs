@@ -1,17 +1,16 @@
 ﻿using Boardgame;
 
-
 namespace chess
 {
 
     class Pawn : Piece
     {
-        private Match Match;
+        private Match _match;
 
 
         public Pawn(Board board, Color color, Match match) : base(board, color)
         {
-            Match = match;
+            _match = match;
         }
 
         public bool HasEnemy(Position pos)
@@ -70,17 +69,15 @@ namespace chess
                 if (Position.Line == 3)
                 {
                     Position left = new Position(Position.Line, Position.Row - 1);
-                    if (Board.validPosition(left) && HasEnemy(left) && Board.Piece(left) == Match.VulnerableEnPassant)
+                    if (Board.validPosition(left) && HasEnemy(left) && Board.Piece(left) == _match.VulnerableEnPassant)
                     {
                         mat[left.Line -1 , left.Row] = true;
                     }
                     Position right = new Position(Position.Line, Position.Row + 1);
-                    if (Board.validPosition(right) && HasEnemy(right) && Board.Piece(right) == Match.VulnerableEnPassant)
+                    if (Board.validPosition(right) && HasEnemy(right) && Board.Piece(right) == _match.VulnerableEnPassant)
                     {
                         mat[right.Line -1 , right.Row] = true;
                     }
-
-
                 }
 
 
@@ -113,28 +110,26 @@ namespace chess
                 if (Position.Line == 4)
                 {
                     Position left = new Position(Position.Line, Position.Row - 1);
-                    if (Board.validPosition(left) && HasEnemy(left) && Board.Piece(left) == Match.VulnerableEnPassant)
+                    if (Board.validPosition(left) && HasEnemy(left) && Board.Piece(left) == _match.VulnerableEnPassant)
                     {
                         mat[left.Line +1, left.Row] = true;
                     }
                     Position right = new Position(Position.Line, Position.Row + 1);
-                    if (Board.validPosition(right) && HasEnemy(right) && Board.Piece(right) == Match.VulnerableEnPassant)
+                    if (Board.validPosition(right) && HasEnemy(right) && Board.Piece(right) == _match.VulnerableEnPassant)
                     {
                         mat[right.Line +1, right.Row] = true;
                     }
-
-
                 }
 
             }
 
             return mat;
+
         }
 
         public override string ToString()
         {
             return "P";
         }
-
     }
 }

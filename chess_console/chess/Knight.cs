@@ -1,9 +1,7 @@
 ﻿using Boardgame;
 
-
 namespace chess
 {
-
     class Knight : Piece
     {
         public Knight(Board board, Color color) : base(board, color)
@@ -23,7 +21,6 @@ namespace chess
         {
             Piece p = Board.Piece(pos);
             return p == null || p.Color != Color;
-
         }
 
         public override bool[,] PossibleMovements()
@@ -44,14 +41,12 @@ namespace chess
             {
                 mat[pos.Line, pos.Row] = true;
             }
-
             
             pos.DefineValues(Position.Line - 2, Position.Row +1);
             if (Board.validPosition(pos) && canMove(pos))
             {
                 mat[pos.Line, pos.Row] = true;
             }
-
             
             pos.DefineValues(Position.Line -1, Position.Row + 2);
             if (Board.validPosition(pos) && canMove(pos))
@@ -83,14 +78,8 @@ namespace chess
                 mat[pos.Line, pos.Row] = true;
             }
 
-
-
-
-
             return mat;
+
         }
-
-
     }
-
 }

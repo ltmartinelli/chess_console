@@ -1,4 +1,5 @@
 ﻿namespace Boardgame
+
 {
     abstract class Piece
     {
@@ -6,6 +7,7 @@
         public Color Color { get; protected set; }
         public int Movements { get; protected set; }
         public Board Board { get; protected set; }
+
 
         public Piece(Board board, Color color)
         {
