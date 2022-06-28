@@ -1,12 +1,44 @@
 ﻿using System;
 using Boardgame;
 using chess;
+using System.Collections.Generic;
 
 
 namespace chess_console
 {
     class Screen
     {
+
+        public static void PrintMatch(Match match)
+        {
+            PrintBoard(match.Board);
+            Console.WriteLine();
+            PrintCapturedPieces(match);
+            Console.WriteLine();
+            Console.WriteLine("Turn: " + match.Turn);
+            Console.WriteLine("Awaiting Player: " + match.CurrentPlayer);
+        }
+
+        public static void PrintCapturedPieces(Match match)
+        {
+            Console.WriteLine("Captured Pieces: ");
+            Console.Write("White: ");
+            PrintCollection(match.CapturedPiecesOfColor(Color.White));
+            Console.WriteLine();
+            Console.Write("Black: ");
+            PrintCollection(match.CapturedPiecesOfColor(Color.Black));
+            Console.WriteLine();
+        }
+
+        public static void PrintCollection(HashSet<Piece> collection)
+        {
+            Console.Write("[");
+            foreach (Piece x in collection)
+            {
+                Console.Write(x + " ");
+            }
+            Console.Write("]");
+        }
 
         public static void PrintBoard(Board board)
         {

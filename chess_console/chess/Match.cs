@@ -62,7 +62,7 @@ namespace chess
         {
             Piece capturedPiece = ExecuteMovement(origin, target);
 
-            if (IsInCheck(CurrentPlayer){
+            if (IsInCheck(CurrentPlayer)){
                 UndoMovement(origin, target, capturedPiece);
                 throw new BoardException("You can't put your King in Check!");
             }
